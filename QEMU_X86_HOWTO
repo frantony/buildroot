@@ -1,0 +1,1 @@
+qemu -kernel bzImage -initrd rootfs.cpio -nodefaults -nographic -serial stdio -append "console=ttyS0"
