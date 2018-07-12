@@ -1,0 +1,53 @@
+From 900dbdec145b38af17794c434a9c846be7af5e85 Mon Sep 17 00:00:00 2001
+From: Antony Pavlov <antonynpavlov@gmail.com>
+Date: Tue, 22 May 2018 12:55:11 +0300
+Subject: [PATCH] nanopi-duo: add KEY_POWER gpio key and heartbeat gpio led
+
+Signed-off-by: Antony Pavlov <antonynpavlov@gmail.com>
+---
+ .../arm/boot/dts/sun8i-h2-plus-nanopi-duo.dts | 32 +++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sun8i-h2-plus-nanopi-duo.dts b/arch/arm/boot/dts/sun8i-h2-plus-nanopi-duo.dts
+index 280c3a9a3ba3a..b5bcf32379652 100644
+--- a/arch/arm/boot/dts/sun8i-h2-plus-nanopi-duo.dts
++++ b/arch/arm/boot/dts/sun8i-h2-plus-nanopi-duo.dts
+@@ -109,3 +109,35 @@
+ 		function = "gpio_out";
+ 	};
+ };
++
++&pio {
++	ledg11: ledg11 {
++		pins = "PG11";
++		function = "gpio_out";
++	};
++};
++
++/ {
++	leds2 {
++		compatible = "gpio-leds";
++		pinctrl-names = "default";
++		pinctrl-0 = <&ledg11>;
++
++		statusg11 {
++			label = "nanopi:red:status";
++			gpios = <&pio 6 11 GPIO_ACTIVE_HIGH>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	r_gpio_keys2 {
++		compatible = "gpio-keys";
++		input-name = "l11";
++
++		l11 {
++			label = "l11";
++			linux,code = <KEY_POWER>;
++			gpios = <&r_pio 0 11 GPIO_ACTIVE_LOW>;
++		};
++	};
++};
+-- 
+2.18.0
+
